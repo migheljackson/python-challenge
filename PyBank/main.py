@@ -42,8 +42,10 @@ minprofitdate=budgetDF['Date'].iloc[mindex]
 
 #minprofit=budgetDF[budgetDF.Delta == budgetDF.Delta.min()]
 #print(minprofit)
+results= open("analysis_result.txt","w+")
+results.write('Financial Analysis\n----------------------\n')
+results.write(f'Total Months: {monthcount}\nTotal Profit: {netprofitformatted}\nAverage Monthly Change: {avgdeltaformatted}\n')
+results.write(f'The greatest increase in profits was {maxprofitdate}, with an increase of {maxprofitdeltaformatted}.\n')
+results.write(f'The greatest decrease in profits was {minprofitdate}, with a decrease of {minprofitdeltaformatted}.')
+results.close()
 
-print('Financial Analysis\n----------------------')
-print(f'Total Months: {monthcount}\nTotal Profit: {netprofitformatted}\nAverage Monthly Change: {avgdeltaformatted}')
-print(f'The greatest increase in profits was {maxprofitdate}, with an increase of {maxprofitdeltaformatted}.')
-print(f'The greatest decrease in profits was {minprofitdate}, with a decrease of {minprofitdeltaformatted}.')
