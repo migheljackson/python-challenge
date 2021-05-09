@@ -13,14 +13,24 @@ votedcandidates_DF=elecdata_DF["Candidate"].value_counts()
 
 percentvotes=votedcandidates_DF/totalvotes
 
-new=pd.DataFrame({'email':votedcandidates_DF.index, 'list':votedcandidates_DF.values})
-new2=pd.DataFrame({'email':percentvotes.index, 'list':percentvotes.values})
+new=pd.DataFrame({'Candidate':votedcandidates_DF.index, 'Total Votes':votedcandidates_DF.values})
+new2=pd.DataFrame({'Candidate':percentvotes.index, '% of Vote':percentvotes.values})
+merge_df=pd.merge(new,new2,on='Candidate',how='inner')
 
-print(elecdata_DF)
+
+
+#print(elecdata_DF)
 #print(votedcandidates_DF)
 
 #newlist=[]
+index2=len(merge_df['Candidate'])
 
-#for x in votedcandidates_DF:
-    #newlist.append(x)
+
+for x in range(0,index2): 
+    name=merge_df['Candidate'].iloc[x]
+    votes=merge_df['Total Votes'].iloc[x]
+    votesformatted="{:,}".format(votes)
+    percent=(merge_df['% of Vote'].iloc[x])*100
+    percentformatted="{:.2f}%".format(percent)
+    print((f'{name} received {percentformatted} of the vote with {votesformatted} total votes'))
     
