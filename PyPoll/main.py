@@ -2,38 +2,33 @@ import pandas as pd
 csv_path='Resources/election_data.csv'
 elecdata_DF=pd.read_csv(csv_path)
 
-#print(elecdata_DF.head())
-
-#print(len(elecdata_DF["Voter ID"]))
-
 totalvotes=elecdata_DF["Voter ID"].count()
-#print(totalvotes)
+totalvotesform="{:,}".format(totalvotes)
 
 votedcandidates_DF=elecdata_DF["Candidate"].value_counts()
 
 percentvotes=votedcandidates_DF/totalvotes
 
-new=pd.DataFrame({'Candidate':votedcandidates_DF.index, 'Total Votes':votedcandidates_DF.values})
-new2=pd.DataFrame({'Candidate':percentvotes.index, '% of Vote':percentvotes.values})
-merge_df=pd.merge(new,new2,on='Candidate',how='inner')
+totvote_df=pd.DataFrame({'Candidate':votedcandidates_DF.index, 'Total Votes':votedcandidates_DF.values})
+percvote_df=pd.DataFrame({'Candidate':percentvotes.index, '% of Vote':percentvotes.values})
+electresult_df=pd.merge(totvote_df,percvote_df,on='Candidate',how='inner')
 
+findwindex=electresult_df["% of Vote"].argmax()
+winner=electresult_df['Candidate'].iloc[findwindex]
 
+candidatecount=len(electresult_df['Candidate'])
 
-#print(elecdata_DF)
-#print(votedcandidates_DF)
+#Outputs
 
-#newlist=[]
-index2=len(merge_df['Candidate'])
+print('Election Results\n---------------\n')
+print(f'Total Votes Cast: {totalvotesform}\n---------------\n')
 
-
-for x in range(0,index2): 
-    name=merge_df['Candidate'].iloc[x]
-    votes=merge_df['Total Votes'].iloc[x]
-    votesformatted="{:,}".format(votes)
-    percent=(merge_df['% of Vote'].iloc[x])*100
-    percentformatted="{:.2f}%".format(percent)
-    print((f'{name} received {percentformatted} of the vote with {votesformatted} total votes.'))
+for x in range(0,candidatecount): 
+    name=electresult_df['Candidate'].iloc[x]
+    votes=electresult_df['Total Votes'].iloc[x]
+    votesform="{:,}".format(votes)
+    percent=(electresult_df['% of Vote'].iloc[x])*100
+    percentform="{:.2f}%".format(percent)
+    print((f'{name} received {percentform} of the vote with {votesform} total votes.\n'))
     
-findwindex=merge_df["% of Vote"].argmax()
-winner=merge_df['Candidate'].iloc[findwindex]
-print(winner)
+print(f'---------------\nWinner: {winner}\n---------------')
