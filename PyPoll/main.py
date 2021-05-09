@@ -18,7 +18,7 @@ winner=electresult_df['Candidate'].iloc[findwindex]
 
 candidatecount=len(electresult_df['Candidate'])
 
-#Outputs
+#Generate Terminal outputs for QA
 
 print('Election Results\n---------------\n')
 print(f'Total Votes Cast: {totalvotesform}\n---------------\n')
@@ -32,3 +32,19 @@ for x in range(0,candidatecount):
     print((f'{name} received {percentform} of the vote with {votesform} total votes.\n'))
     
 print(f'---------------\nWinner: {winner}\n---------------')
+
+#Generate results .txt file
+results= open("election_results.txt","w+")
+results.write('Election Results\n---------------\n')
+results.write(f'Total Votes Cast: {totalvotesform}\n---------------\n')
+
+for x in range(0,candidatecount): 
+    name=electresult_df['Candidate'].iloc[x]
+    votes=electresult_df['Total Votes'].iloc[x]
+    votesform="{:,}".format(votes)
+    percent=(electresult_df['% of Vote'].iloc[x])*100
+    percentform="{:.2f}%".format(percent)
+    results.write((f'{name} received {percentform} of the vote with {votesform} total votes.\n'))
+    
+results.write(f'---------------\nWinner: {winner}\n---------------')
+results.close()
