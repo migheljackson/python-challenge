@@ -32,5 +32,8 @@ for x in range(0,index2):
     votesformatted="{:,}".format(votes)
     percent=(merge_df['% of Vote'].iloc[x])*100
     percentformatted="{:.2f}%".format(percent)
-    print((f'{name} received {percentformatted} of the vote with {votesformatted} total votes'))
+    print((f'{name} received {percentformatted} of the vote with {votesformatted} total votes.'))
     
+findwindex=merge_df["% of Vote"].argmax()
+winner=merge_df['Candidate'].iloc[findwindex]
+print(winner)
